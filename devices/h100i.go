@@ -6,4 +6,5 @@ var CorsairH100i = Device{
 	ProductID:  0x0c15 ,
 	InEndpoint:  0x01,
 	OutEndpoint: 0x01,
+	Driver: AsetekPro,
 }

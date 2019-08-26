@@ -8,4 +8,11 @@ type Device struct {
 	ProductID gousb.ID
 	InEndpoint int
 	OutEndpoint int
+	InOutEp InOutEP
+	Driver Driver
+}
+
+type InOutEP struct {
+	InEP *gousb.InEndpoint
+	OutEP *gousb.OutEndpoint
 }

@@ -48,6 +48,7 @@ func main() {
 	}
 	defer done()
 	defer intf.Close()
+	dev.InOutEp = devices.InOutEP{InEP:iep, OutEP:oep}
 	OldR, OldG, OldB := GenerateRandomColor()
 	for {
 		fmt.Printf("loop")
@@ -65,7 +66,10 @@ func main() {
 			OldR = NewR
 			OldG = NewG
 			OldB = NewB
-			WriteColor(OldR, OldG, OldB)
+			rgb := devices.RGB{R: OldR, G: OldG, B: OldB}
+			send := []devices.RGB{rgb}
+			//WriteColor(OldR, OldG, OldB)
+			dev.Driver.LED.Static(dev.InOutEp, send )
 			time.Sleep(time.Duration(LoopTime/Frames) * time.Millisecond)
 		}
 	}
