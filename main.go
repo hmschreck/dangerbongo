@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"time"
+	"github.com/hmschreck/dangerbongo/devices"
 )
 
 var Frames = 24
@@ -16,6 +17,7 @@ var oep *gousb.OutEndpoint
 var iep *gousb.InEndpoint
 
 func main() {
+	dev := devices.CorsairH100i
 	var frameFlag = flag.Int("frames", 24, "frames per loop")
 	var loopTimeFlag = flag.Int("loop", 960, "loop time")
 	flag.Parse()
@@ -26,8 +28,8 @@ func main() {
 
 	ctx.Debug(0)
 	var vendor, pid gousb.ID
-	vendor = 0x1b1c
-	pid = 0x0c15
+	vendor = dev.VendorID
+	pid = dev.ProductID
 	device, err := ctx.OpenDeviceWithVIDPID(vendor, pid)
 	if err != nil {
 		log.Fatal(err)
@@ -36,11 +38,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	oep, err = intf.OutEndpoint(0x01)
+	oep, err = intf.OutEndpoint(dev.OutEndpoint)
 	if err != nil {
 		log.Fatal(err)
 	}
-	iep, err = intf.InEndpoint(0x01)
+	iep, err = intf.InEndpoint(dev.InEndpoint)
 	if err != nil {
 		log.Fatal(err)
 	}
